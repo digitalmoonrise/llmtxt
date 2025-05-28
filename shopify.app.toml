@@ -3,7 +3,7 @@
 client_id = "7cd1c1032ceab0f3aaefd8b2e33d723c"
 name = "generative-engine-optimization"
 handle = "generative-engine-optimization"
-application_url = "https://determine-expenditures-proper-alice.trycloudflare.com"
+application_url = "https://craig-crest-reporter-rewards.trycloudflare.com"
 embedded = true
 
 [build]
@@ -27,9 +27,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://determine-expenditures-proper-alice.trycloudflare.com/auth/callback",
-  "https://determine-expenditures-proper-alice.trycloudflare.com/auth/shopify/callback",
-  "https://determine-expenditures-proper-alice.trycloudflare.com/api/auth/callback"
+  "https://craig-crest-reporter-rewards.trycloudflare.com/auth/callback",
+  "https://craig-crest-reporter-rewards.trycloudflare.com/auth/shopify/callback",
+  "https://craig-crest-reporter-rewards.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
