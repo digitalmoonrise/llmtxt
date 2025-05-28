@@ -4,16 +4,30 @@ Based on PRD: `prd-llms-txt-generator.md`
 
 ## Important Technical Limitation
 
-**Shopify theme extensions CANNOT create files at the root domain** (e.g., `yourstore.com/llms.txt`). This is a fundamental limitation of Shopify's architecture.
+**Shopify theme extensions CANNOT create files at the root domain** (e.g., `yourstore.com/llms.txt`). However, **since `/llms.txt` will return a 404, we can automatically create a redirect** to our page template.
 
 ## Revised Approach
 
-Instead of creating a true `/llms.txt` file, we'll implement:
+Our app automatically handles everything so users get `/llms.txt` functionality via redirect without any manual work:
 
-1. **Primary Solution**: Page template that outputs llms.txt content as plain text at `/pages/llms-txt`
-2. **Educational Focus**: Heavy emphasis on explaining AI commerce benefits to non-technical users
-3. **Customization Interface**: User-friendly tools for content personalization
-4. **Future Premium Features**: Foundation for analytics, bot control, and MCP integration
+1. **Automatic Page Creation**: App creates page template at `/pages/llms-txt` serving plain text content
+2. **Automatic Redirect Setup**: App programmatically creates 301 redirect from `/llms.txt` → `/pages/llms-txt`
+3. **Zero User Intervention**: Users get working `yourstore.com/llms.txt` redirect without installing anything manually
+4. **Seamless Experience**: From user perspective, `/llms.txt` redirects to the content (not true root domain serving)
+
+## URL Structure
+
+- **Root Domain**: `yourstore.com/llms.txt` (301 redirect to `/pages/llms-txt`)
+- **Page Template**: `yourstore.com/pages/llms-txt` (automatically created, serves content)
+- **User Experience**: Users access `yourstore.com/llms.txt` which redirects to the content
+
+## Implementation Strategy
+
+1. **App automatically creates** page template that outputs llms.txt content as `text/plain`
+2. **App automatically creates** 301 redirect from `/llms.txt` to `/pages/llms-txt` via Admin API
+3. **App verifies** redirect works and returns proper 301 status
+4. **App manages** updates and maintenance automatically
+5. **Users experience** `/llms.txt` redirect functionality without any manual steps
 
 ## Relevant Files
 
@@ -197,6 +211,7 @@ Instead of creating a true `/llms.txt` file, we'll implement:
 - Use app bridge for secure communication between extension and main app
 - Follow Online Store 2.0 theme compatibility requirements
 - Implement graceful fallback for unsupported themes
+- **Redirect Implementation**: Use Shopify Admin API to create 301 redirects from `/llms.txt` to `/pages/llms-txt`
 - **Safety and Conflict Prevention**:
   - Always check for existing pages/templates before deployment
   - Create backups of any existing conflicting files
@@ -225,6 +240,7 @@ Instead of creating a true `/llms.txt` file, we'll implement:
 - Provide clear error messages with actionable solutions
 - Create guided workflows for all major tasks
 
+
 ### Customization System
 - Allow users to customize store descriptions with AI suggestions
 - Enable product grouping control with visual interface
@@ -249,16 +265,18 @@ Instead of creating a true `/llms.txt` file, we'll implement:
 ## Success Metrics
 
 1. **Educational Effectiveness**: Users complete onboarding and understand AI benefits
-2. **Usability**: Non-technical merchants can successfully customize and deploy llms.txt
+2. **Usability**: Non-technical merchants can successfully customize and deploy llms.txt redirect
 3. **Performance**: Content generation completes within 5 seconds for stores with 500+ products
-4. **Reliability**: 99%+ uptime for content delivery with graceful error handling
+4. **Reliability**: 99%+ uptime for redirect functionality and content delivery with graceful error handling
 5. **Adoption**: Clear setup process with minimal merchant confusion and high completion rates
+6. **Redirect Functionality**: 301 redirects work correctly and serve proper llms.txt content
 
 ## Risk Mitigation
 
-1. **Technical Limitation Communication**: Clearly explain URL limitations and provide alternatives
+1. **Technical Limitation Communication**: Clearly explain that we use redirects, not true root domain files
 2. **Educational Content**: Ensure non-technical users understand value before technical setup
 3. **Fallback Options**: Provide manual download and installation instructions
 4. **Theme Compatibility**: Test across popular Shopify themes with graceful degradation
 5. **API Rate Limits**: Implement proper caching and retry logic with user feedback
-6. **User Support**: Provide comprehensive help documentation and troubleshooting guides 
+6. **User Support**: Provide comprehensive help documentation and troubleshooting guides
+7. **Redirect Management**: Ensure redirects are properly created, maintained, and cleaned up on uninstall 
